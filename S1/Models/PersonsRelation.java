@@ -23,7 +23,7 @@ public class PersonsRelation {
         return relationship;
     }
     
-    public String GetRelationShip(){
+    public String getPersonRelationShip(){
         return mainPerson.fullName + " is " + relationship + " of " + secondaryPerson.fullName;
     }
 }
