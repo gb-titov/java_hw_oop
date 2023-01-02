@@ -2,7 +2,7 @@ package S1.Models;
 
 import java.lang.invoke.WrongMethodTypeException;
 
-public class Furniture {
+public abstract class Furniture {
     
     private Boolean isOpen = false;
 
