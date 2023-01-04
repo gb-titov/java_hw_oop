@@ -35,7 +35,7 @@ public class Main {
     private static void doWithPet() {
         Person p = new Person("Иванов Иван Иванович", 30, new Cat("Пушок"), new PetAbility());
         p.feedPet();
-        p.walkWithPet();
+        p.walkWithPet();                                                                                         
     }
 
 
