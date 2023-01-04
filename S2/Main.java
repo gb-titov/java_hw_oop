@@ -1,14 +1,17 @@
-package S1;
+package S2;
 
-import S1.Models.Furniture;
-import S1.Models.Person;
-import S1.Models.PersonsRelation;
-import S1.Researches.AgeResearch;
-import S1.Researches.RelativeResearch;
+import S2.Abilities.PetAbility;
+import S2.Models.Person;
+import S2.Models.PersonsRelation;
+import S2.Models.Animals.Cat;
+import S2.Models.Furnitures.Cupboard;
+import S2.Models.Furnitures.Furniture;
+import S2.Researches.AgeResearch;
+import S2.Researches.RelativeResearch;
 
 public class Main {
 
-    public static GeoTree tree;
+    public static IGeoTree tree;
     public static void main(String[] args) {
         fillGeoTree();
         var person = tree.getTree().get(2).getMainPerson();
@@ -20,9 +23,19 @@ public class Main {
         findOlders(age);
 
 
-        
-        
+        Furniture furniture = new Cupboard();
 
+        openFurniture(person, furniture);
+        openFurniture(person, furniture);
+        
+        doWithPet();
+    }
+
+
+    private static void doWithPet() {
+        Person p = new Person("Иванов Иван Иванович", 30, new Cat("Пушок"), new PetAbility());
+        p.feedPet();
+        p.walkWithPet();
     }
 
 
