@@ -7,17 +7,14 @@ import S5.models.Operation;
 import S5.services.ComplexService;
 import S5.views.ComplexView;
 
-public class ComplexController {
+public class ComplexController extends BaseNumberTypeController {
     
     private ComplexView view = new ComplexView();
     private Operation op;
     private Complex first, second;
 
-    public ComplexController(Operation op) {
+    public void run(Operation op) throws OperationNotSupportedException{
         this.op = op;
-    }
-
-    public void run() throws OperationNotSupportedException{
         view.writeHeader("Введите первое число:");
         first = view.inputNum();
         view.writeHeader("Введите второе число:");

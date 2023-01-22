@@ -1,73 +1,57 @@
 package S5.controllers;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.logging.*;
-import java.util.logging.FileHandler.*;
-
-import javax.naming.OperationNotSupportedException;
-import javax.swing.text.View;
-
-import S5.models.Operation;
+import S5.models.*;
 import S5.views.AppView;
 
 public class App {
 
     public static Scanner in = new Scanner(System.in);
-    public static Logger logger = Logger.getLogger("CalcLog");
-    FileHandler fh;
-    SimpleFormatter sFormat;
-    private AppView view;
-
+    public static Logger Log = Logger.getLogger("CalcLog");
 
     public App() throws SecurityException, IOException {
-        fh = new FileHandler("log.txt",true);
-        logger.addHandler(fh);
-        sFormat = new SimpleFormatter();
-        fh.setFormatter(sFormat);
-        view = new AppView();
+        var fh = new FileHandler("log.txt",true);
+        Log.addHandler(fh);
+        var sf = new SimpleFormatter();
+        fh.setFormatter(sf);
     }
+
+    
 
     public void run(){
         
-        var op = view.showMenu();
-        var tp = view.ChooseType();
+        var operation = new AppView<Operation>().showMenu("Выберите действие", fillOperationMenu());
+
+        var ctrl = new AppView<BaseNumberTypeController>().showMenu("Выберите тип чисел", fillNumberTypeMenu());
+
         try {
-            selectCtrl(op, tp);
-        } catch (OperationNotSupportedException e) {
-            logger.log(Level.SEVERE,e.toString());
+            ctrl.getOption().run(operation.getOption());
+        } catch (Exception e) {
+            Log.log(Level.SEVERE,e.toString());
         }
         in.close();
+    
     }
 
-    private void selectCtrl(int op, int tp) throws OperationNotSupportedException {
-        Operation operation; 
-        switch (op) {
-            case 1:
-                operation = Operation.addition;
-                break;
-            case 2:
-                operation = Operation.subtraction;
-                break;    
-            case 3:
-                operation = Operation.multiplication;
-                break;
-            case 4:
-                operation = Operation.division;
-                break;    
-            default:
-                throw new OperationNotSupportedException("Неверный тип операции");
-        }
 
-        switch (tp) {
-            case 1:
-                new ComplexController(operation).run();
-                break;
-            case 2:
-                new RationalController(operation).run();
-                break;
-        }
+    private List<MenuOption<Operation>> fillOperationMenu(){
+        List<MenuOption<Operation>> list = new ArrayList<MenuOption<Operation>>();
+        list.add(new MenuOption<Operation>(Operation.addition, "Сложение"));
+        list.add(new MenuOption<Operation>(Operation.subtraction, "Вычитание"));
+        list.add(new MenuOption<Operation>(Operation.multiplication, "Умножение"));
+        list.add(new MenuOption<Operation>(Operation.division, "Деление"));
+        return list;
     }
 
+    private List<MenuOption<BaseNumberTypeController>> fillNumberTypeMenu(){
+        List<MenuOption<BaseNumberTypeController>> list = new  ArrayList<MenuOption<BaseNumberTypeController>>();
+        list.add(new MenuOption<BaseNumberTypeController>(new ComplexController(), "Комплексные"));
+        list.add(new MenuOption<BaseNumberTypeController>(new RationalController(), "Рациональные"));
+        return list;
+    }
     
 }

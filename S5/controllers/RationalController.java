@@ -6,16 +6,13 @@ import S5.models.Rational;
 import S5.services.RationalService;
 import S5.views.RationalView;
 
-public class RationalController {
+public class RationalController extends BaseNumberTypeController {
     private RationalView view = new RationalView();
     private Operation op;
     private Rational first, second;
 
-    public RationalController(Operation op) {
+    public void run(Operation op) throws OperationNotSupportedException{
         this.op = op;
-    }
-
-    public void run() throws OperationNotSupportedException{
         view.writeHeader("Введите первое число:");
         first = view.inputNum();
         view.writeHeader("Введите второе число:");
